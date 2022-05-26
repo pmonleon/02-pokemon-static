@@ -1,5 +1,14 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+### Actulizacion en Vercel
+En la rama main -> 
+1 git add .
+2 git commit -m "--<nombre de los cambios>--"
+3 git push al repositorio remoto
+
+VERCEL realiza el build al detectar cambio en el repo y hace el preview
+
+
 ## Getting Started
 
 First, run the development server:
