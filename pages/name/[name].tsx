@@ -127,9 +127,11 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
                 },
             }
         }),
-        fallback: false
+        // fallback: false si no existe el path muestra pagina 404
+       fallback: 'blocking'
     }
 }
+
 
 
 // You should use getStaticProps when:
@@ -143,11 +145,22 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
    const { params } = ctx;
    const { name } = params as {name: string};
 
+   const pokemon =  await getPokemonInfo(name)
+
+   if (!pokemon) {
+       return {
+           redirect: {
+            destination: '/',
+            permanent: false
+        }
+       }
+   }
 
     return {
         props: {
-          pokemon: await getPokemonInfo(name)
-        }
+          pokemon
+        },
+        revalidate: 86400  // 60 * 60 * 24 dato en segundos
     }
 }
 

@@ -120,7 +120,8 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
                 },
             }
         }),
-        fallback: false
+       // fallback: false si no existe el path muestra pagina 404
+       fallback: 'blocking'
     }
 }
 
@@ -145,11 +146,23 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 //         sprites: data.sprites
 //     } 
 
+    const pokemon = await getPokemonInfo(id);
+
+    if (!pokemon) {
+        // sacar al usuario a otra vista o a la pagina 404
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false
+            }
+        }
+    }
 
     return {
         props: {
-          pokemon: await getPokemonInfo(id)
-        }
+          pokemon
+        },
+        revalidate: 86400  // 60 * 60 * 24 dato en segundos
     }
 }
 
